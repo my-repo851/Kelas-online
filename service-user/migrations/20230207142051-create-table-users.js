@@ -1,66 +1,59 @@
 'use strict';
 
-const { sequelize } = require('../models');
-
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    
-    await queryInterface.createTable('users', {
-      id: {
-        type: sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: false
-      },
-       name: {
-        type: sequelize.STRING,
-        allowNull: false
+  up: async (queryInterface, Sequelize) => {
+   
+     await queryInterface.createTable('users', { 
+       id: {
+         type: Sequelize.INTEGER,
+         autoIncrement: true,
+         primaryKey: true,
+         allowNull: false
        },
-       profession:{
-        type: sequelize.STRING,
+       name: {
+         type: Sequelize.STRING,
+         allowNull: false
+       },
+       profession: {
+        type: Sequelize.STRING,
         allowNull: true
        },
-       avatar:{
-        type: sequelize.STRING,
+       avatar: {
+        type: Sequelize.STRING,
         allowNull: true
        },
        role: {
-        type: sequelize.ENUM,
-        values: ['admin', 'student'],
-        allowNull: false
+         type: Sequelize.ENUM,
+         values: ['admin', 'student'],
+         allowNull: false
        },
-       email:{
-        type: sequelize.STRING,
+       email: {
+        type: Sequelize.STRING,
         allowNull: false
        },
        password: {
-        type: sequelize.STRING,
+        type: Sequelize.STRING,
         allowNull: false
        },
        created_at: {
-        type: sequelize.DATE,
-        allowNull: false
+         type: Sequelize.DATE,
+         allowNull: false
        },
        updated_at: {
-        type: sequelize.DATE,
+        type: Sequelize.DATE,
         allowNull: false
-       }
+      }
     });
-    
+
     await queryInterface.addConstraint('users', {
       type: 'unique',
       fields: ['email'],
       name: 'UNIQUE_USERS_EMAIL'
-    })
-
-
+    });
+     
   },
 
-  async down (queryInterface, Sequelize) {
-    
-    
-    await queryInterface.dropTable('users');
-    
+  down: async (queryInterface, Sequelize) => {
+      await queryInterface.dropTable('users');
   }
 };
